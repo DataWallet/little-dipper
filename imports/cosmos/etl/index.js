@@ -1,0 +1,260 @@
+
+import { Meteor } from 'meteor/meteor';
+// import RPCgets from '../../imports/cosmos/api/core_modules/node/rpc_getters'; // THIS WONT WORK RIGHT NOW....
+import './startup/server';
+import './startup/both';
+import './method_handlers.js';
+
+// refactor below so that we can:
+// import { CosmosDB } '';
+// CosmosDB.config()
+// CosmosDB.start();
+
+// import '/imports/cosmos/api/methods'
+// import '/imports/cosmos/index.js'
+// import Cosmos from '/imports/cosmos/api';
+// import '/imports/cosmos/methods.js'
+
+// const cosmosRESTURL = "http://127.0.0.1:1317";
+const cosmosRESTURL = Meteor.settings && Meteor.settings.remote && Meteor.settings.remote.lcd;
+const cosmosRPCURL = Meteor.settings && Meteor.settings.remote && Meteor.settings.remote.rpc;
+const chainId = Meteor.settings.public && Meteor.settings.public.chainId;
+
+SYNCING = false;
+COUNTMISSEDBLOCKS = false;
+COUNTMISSEDBLOCKSSTATS = false;
+// RPCurl = Meteor.settings.remote.rpc;
+RPC = Meteor.settings.remote.rpc;
+// LCDurl = Meteor.settings.remote.lcd;
+LCD = Meteor.settings.remote.lcd;
+timerBlocks = 0;
+timerChain = 0;
+timerConsensus = 0;
+timerProposal = 0;
+timerProposalsResults = 0;
+timerMissedBlock = 0;
+timerDelegation = 0;
+timerAggregate = 0;
+
+// const DEFAULTSETTINGS = '/default_settings.json';
+
+// updateChainStatus = () => {
+//   Meteor.call('chain.updateStatus', (error, result) => {
+//       if (error){
+//           console.log("updateStatus: "+error);
+//       }
+//       else{
+//           console.log("updateStatus: "+result);
+//       }
+//   })
+// }
+
+// updateBlock = () => {
+//   Meteor.call('blocks.blocksUpdate', (error, result) => {
+//       if (error){
+//           console.log("updateBlocks: "+error);
+//       }
+//       else{
+//           console.log("updateBlocks: "+result);
+//       }
+//   })
+// }
+
+// getConsensusState = () => {
+//   Meteor.call('chain.getConsensusState', (error, result) => {
+//       if (error){
+//           console.log("get consensus: "+error)
+//       }
+//   })
+// }
+
+// getProposals = () => {
+//   Meteor.call('proposals.getProposals', (error, result) => {
+//       if (error){
+//           console.log("get porposal: "+ error);
+//       }
+//       if (result){
+//           console.log("get proposal: "+result);
+//       }
+//   });
+// }
+
+// getProposalsResults = () => {
+//   Meteor.call('proposals.getProposalResults', (error, result) => {
+//       if (error){
+//           console.log("get proposals result: "+error);
+//       }
+//       if (result){
+//           console.log("get proposals result: "+result);
+//       }
+//   });
+// }
+
+// updateMissedBlocks = () => {
+//   Meteor.call('ValidatorRecords.calculateMissedBlocks', (error, result) =>{
+//       if (error){
+//           console.log("missed blocks error: "+ error)
+//       }
+//       if (result){
+//           console.log("missed blocks ok:" + result);
+//       }
+//   });
+// /*
+//   Meteor.call('ValidatorRecords.calculateMissedBlocksStats', (error, result) =>{
+//       if (error){
+//           console.log("missed blocks stats error: "+ error)
+//       }
+//       if (result){
+//           console.log("missed blocks stats ok:" + result);
+//       }
+//   });
+// */
+// }
+
+// getDelegations = () => {
+//   Meteor.call('delegations.getDelegations', (error, result) => {
+//       if (error){
+//           console.log("get delegation error: "+ error)
+//       }
+//       else{
+//           console.log("get delegtaions ok: "+ result)
+//       }
+//   });
+// }
+
+// aggregateMinutely = () =>{
+//   // doing something every min
+//   Meteor.call('Analytics.aggregateBlockTimeAndVotingPower', "m", (error, result) => {
+//       if (error){
+//           console.log("aggregate minutely block time error: "+error)
+//       }
+//       else{
+//           console.log("aggregate minutely block time ok: "+result)
+//       }
+//   });
+
+//   Meteor.call('coinStats.getCoinStats', (error, result) => {
+//       if (error){
+//           console.log("get coin stats: "+error);
+//       }
+//       else{
+//           console.log("get coin stats ok: "+result)
+//       }
+//   });
+// }
+
+// aggregateHourly = () =>{
+//   // doing something every hour
+//   Meteor.call('Analytics.aggregateBlockTimeAndVotingPower', "h", (error, result) => {
+//       if (error){
+//           console.log("aggregate hourly block time error: "+error)
+//       }
+//       else{
+//           console.log("aggregate hourly block time ok: "+result)
+//       }
+//   });
+// }
+
+// aggregateDaily = () =>{
+//   // doing somthing every day
+//   Meteor.call('Analytics.aggregateBlockTimeAndVotingPower', "d", (error, result) => {
+//       if (error){
+//           console.log("aggregate daily block time error: "+error)
+//       }
+//       else{
+//           console.log("aggregate daily block time ok: "+result)
+//       }
+//   });
+
+//   Meteor.call('Analytics.aggregateValidatorDailyBlockTime', (error, result) => {
+//       if (error){
+//           console.log("aggregate validators block time error:"+ error)
+//       }
+//       else {
+//           console.log("aggregate validators block time ok:"+ result);
+//       }
+//   })
+// }
+
+
+Meteor.startup(() => {
+  // This is for unused API library
+  // const conf = {
+  //   RESTurl: cosmosRESTURL,
+  //   RPCurl: cosmosRPCURL,
+  //   chainId: chainId,
+  // }
+  // cosmos = new Cosmos(conf);
+  // cosmos.addModule("rpc", RPCgets(cosmosRPCURL)); // this is used to make the call `Cosmos.rpc` available
+
+
+
+  if (Meteor.isDevelopment) {
+    process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
+    // import DEFAULTSETTINGSJSON from '../../../default_settings.json'
+    import DEFAULTSETTINGSJSON from '../../../default_settings.json'
+    Object.keys(DEFAULTSETTINGSJSON).forEach((key) => {
+      if (Meteor.settings[key] == undefined)
+        throw Error(`${key} is missing from settings`);
+      Object.keys(DEFAULTSETTINGSJSON[key]).forEach((param) => {
+        if (Meteor.settings[key][param] == undefined)
+          throw Error(`${key}.${param} is missing from settings`);
+      })
+    })
+  }
+
+  Meteor.call('chain.genesis', (err, result) => {
+    if (err) {
+      console.log(err);
+    }
+    if (result) {
+      if (Meteor.settings.debug.startTimer) {
+        timerConsensus = Meteor.setInterval(function () {
+          getConsensusState();
+        }, Meteor.settings.params.consensusInterval);
+
+        timerBlocks = Meteor.setInterval(function () {
+          updateBlock();
+        }, Meteor.settings.params.blockInterval);
+
+        timerChain = Meteor.setInterval(function () {
+          updateChainStatus();
+        }, Meteor.settings.params.statusInterval);
+
+        // timerProposal = Meteor.setInterval(function () {
+        //   getProposals();
+        // }, Meteor.settings.params.proposalInterval);
+
+    //     timerProposalsResults = Meteor.setInterval(function () {
+    //       getProposalsResults();
+    //     }, Meteor.settings.params.proposalInterval);
+
+        timerMissedBlock = Meteor.setInterval(function () {
+          updateMissedBlocks();
+        }, Meteor.settings.params.missedBlocksInterval);
+
+    //     timerDelegation = Meteor.setInterval(function () {
+    //       getDelegations();
+    //     }, Meteor.settings.params.delegationInterval);
+
+        timerAggregate = Meteor.setInterval(function () {
+          let now = new Date();
+          if ((now.getUTCSeconds() == 0)) {
+            aggregateMinutely();
+          }
+
+          if ((now.getUTCMinutes() == 0) && (now.getUTCSeconds() == 0)) {
+            aggregateHourly();
+          }
+
+          if ((now.getUTCHours() == 0) && (now.getUTCMinutes() == 0) && (now.getUTCSeconds() == 0)) {
+            aggregateDaily();
+          }
+        }, 1000)
+      }
+    }
+  })
+
+});
+
+
