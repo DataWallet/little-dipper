@@ -61,7 +61,8 @@ updateMissedBlocks = () => {
           console.log("missed blocks ok:" + result);
       }
   });
-/*
+  
+  // NOTE: Testing below.
   Meteor.call('ValidatorRecords.calculateMissedBlocksStats', (error, result) =>{
       if (error){
           console.log("missed blocks stats error: "+ error)
@@ -70,7 +71,7 @@ updateMissedBlocks = () => {
           console.log("missed blocks stats ok:" + result);
       }
   });
-*/
+  
 }
 
 getDelegations = () => {

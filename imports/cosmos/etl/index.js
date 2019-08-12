@@ -1,31 +1,30 @@
 
-import { Meteor } from 'meteor/meteor';
+// import { Meteor } from 'meteor/meteor';
 // import RPCgets from '../../imports/cosmos/api/core_modules/node/rpc_getters'; // THIS WONT WORK RIGHT NOW....
 import './startup/server';
 import './startup/both';
 import './method_handlers.js';
 
-// refactor below so that we can:
+// refactor below so that we can export and construct the class as needed with custom configuration
 // import { CosmosDB } '';
 // CosmosDB.config()
 // CosmosDB.start();
 
+// What are we doing about the API?
 // import '/imports/cosmos/api/methods'
 // import '/imports/cosmos/index.js'
 // import Cosmos from '/imports/cosmos/api';
 // import '/imports/cosmos/methods.js'
 
 // const cosmosRESTURL = "http://127.0.0.1:1317";
-const cosmosRESTURL = Meteor.settings && Meteor.settings.remote && Meteor.settings.remote.lcd;
-const cosmosRPCURL = Meteor.settings && Meteor.settings.remote && Meteor.settings.remote.rpc;
-const chainId = Meteor.settings.public && Meteor.settings.public.chainId;
+// const cosmosRESTURL = Meteor.settings && Meteor.settings.remote && Meteor.settings.remote.lcd;
+// const cosmosRPCURL = Meteor.settings && Meteor.settings.remote && Meteor.settings.remote.rpc;
+// const chainId = Meteor.settings.public && Meteor.settings.public.chainId;
 
 SYNCING = false;
 COUNTMISSEDBLOCKS = false;
 COUNTMISSEDBLOCKSSTATS = false;
-// RPCurl = Meteor.settings.remote.rpc;
 RPC = Meteor.settings.remote.rpc;
-// LCDurl = Meteor.settings.remote.lcd;
 LCD = Meteor.settings.remote.lcd;
 timerBlocks = 0;
 timerChain = 0;
@@ -38,144 +37,28 @@ timerAggregate = 0;
 
 // const DEFAULTSETTINGS = '/default_settings.json';
 
-// updateChainStatus = () => {
-//   Meteor.call('chain.updateStatus', (error, result) => {
-//       if (error){
-//           console.log("updateStatus: "+error);
-//       }
-//       else{
-//           console.log("updateStatus: "+result);
-//       }
-//   })
-// }
+// TODO: We need some kind of custom module support.....
 
-// updateBlock = () => {
-//   Meteor.call('blocks.blocksUpdate', (error, result) => {
-//       if (error){
-//           console.log("updateBlocks: "+error);
-//       }
-//       else{
-//           console.log("updateBlocks: "+result);
-//       }
-//   })
-// }
-
-// getConsensusState = () => {
-//   Meteor.call('chain.getConsensusState', (error, result) => {
-//       if (error){
-//           console.log("get consensus: "+error)
-//       }
-//   })
-// }
-
-// getProposals = () => {
-//   Meteor.call('proposals.getProposals', (error, result) => {
-//       if (error){
-//           console.log("get porposal: "+ error);
-//       }
-//       if (result){
-//           console.log("get proposal: "+result);
-//       }
-//   });
-// }
-
-// getProposalsResults = () => {
-//   Meteor.call('proposals.getProposalResults', (error, result) => {
-//       if (error){
-//           console.log("get proposals result: "+error);
-//       }
-//       if (result){
-//           console.log("get proposals result: "+result);
-//       }
-//   });
-// }
-
-// updateMissedBlocks = () => {
-//   Meteor.call('ValidatorRecords.calculateMissedBlocks', (error, result) =>{
-//       if (error){
-//           console.log("missed blocks error: "+ error)
-//       }
-//       if (result){
-//           console.log("missed blocks ok:" + result);
-//       }
-//   });
-// /*
-//   Meteor.call('ValidatorRecords.calculateMissedBlocksStats', (error, result) =>{
-//       if (error){
-//           console.log("missed blocks stats error: "+ error)
-//       }
-//       if (result){
-//           console.log("missed blocks stats ok:" + result);
-//       }
-//   });
-// */
-// }
-
-// getDelegations = () => {
-//   Meteor.call('delegations.getDelegations', (error, result) => {
-//       if (error){
-//           console.log("get delegation error: "+ error)
-//       }
-//       else{
-//           console.log("get delegtaions ok: "+ result)
-//       }
-//   });
-// }
-
-// aggregateMinutely = () =>{
-//   // doing something every min
-//   Meteor.call('Analytics.aggregateBlockTimeAndVotingPower', "m", (error, result) => {
-//       if (error){
-//           console.log("aggregate minutely block time error: "+error)
-//       }
-//       else{
-//           console.log("aggregate minutely block time ok: "+result)
-//       }
-//   });
-
-//   Meteor.call('coinStats.getCoinStats', (error, result) => {
-//       if (error){
-//           console.log("get coin stats: "+error);
-//       }
-//       else{
-//           console.log("get coin stats ok: "+result)
-//       }
-//   });
-// }
-
-// aggregateHourly = () =>{
-//   // doing something every hour
-//   Meteor.call('Analytics.aggregateBlockTimeAndVotingPower', "h", (error, result) => {
-//       if (error){
-//           console.log("aggregate hourly block time error: "+error)
-//       }
-//       else{
-//           console.log("aggregate hourly block time ok: "+result)
-//       }
-//   });
-// }
-
-// aggregateDaily = () =>{
-//   // doing somthing every day
-//   Meteor.call('Analytics.aggregateBlockTimeAndVotingPower', "d", (error, result) => {
-//       if (error){
-//           console.log("aggregate daily block time error: "+error)
-//       }
-//       else{
-//           console.log("aggregate daily block time ok: "+result)
-//       }
-//   });
-
-//   Meteor.call('Analytics.aggregateValidatorDailyBlockTime', (error, result) => {
-//       if (error){
-//           console.log("aggregate validators block time error:"+ error)
-//       }
-//       else {
-//           console.log("aggregate validators block time ok:"+ result);
-//       }
-//   })
-// }
-
+// This will contain... a list of modules
+let CONFIG = {
+  modules: [
+    {name: "bank", type: "core"}, // is this the name of the module?
+    {name: "gov", type: "core"}, // is this the name of the module?
+    // {name: "moduleName", type: "core"}, // is this the name of the module?
+    {
+      name: "permissions",
+      type: "custom",
+      moduleDefinition: {
+      // here is stuff that defines the stuff?
+        // a timer to then call a method handler
+        // the handler calls meteor method
+        // method parses txs etc.
+        // Do we actually need more listeners?
+        // We have a block listerner?
+      }
+    },
+  ]
+}
 
 Meteor.startup(() => {
   // This is for unused API library
@@ -207,6 +90,7 @@ Meteor.startup(() => {
     if (err) {
       console.log(err);
     }
+    // This is where we need to add modularity?
     if (result) {
       if (Meteor.settings.debug.startTimer) {
         timerConsensus = Meteor.setInterval(function () {
@@ -221,21 +105,22 @@ Meteor.startup(() => {
           updateChainStatus();
         }, Meteor.settings.params.statusInterval);
 
+        // This is gov module? annd which is 'mint'?
         // timerProposal = Meteor.setInterval(function () {
         //   getProposals();
         // }, Meteor.settings.params.proposalInterval);
 
-    //     timerProposalsResults = Meteor.setInterval(function () {
-    //       getProposalsResults();
-    //     }, Meteor.settings.params.proposalInterval);
+        // timerProposalsResults = Meteor.setInterval(function () {
+        //   getProposalsResults();
+        // }, Meteor.settings.params.proposalInterval);
 
         timerMissedBlock = Meteor.setInterval(function () {
           updateMissedBlocks();
         }, Meteor.settings.params.missedBlocksInterval);
 
-    //     timerDelegation = Meteor.setInterval(function () {
-    //       getDelegations();
-    //     }, Meteor.settings.params.delegationInterval);
+        // timerDelegation = Meteor.setInterval(function () {
+        //   getDelegations();
+        // }, Meteor.settings.params.delegationInterval);
 
         timerAggregate = Meteor.setInterval(function () {
           let now = new Date();

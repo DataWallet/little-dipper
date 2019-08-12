@@ -1,3 +1,4 @@
 import './imports/cosmos/etl';
-console.log("we have a package!");
+import { Transactions as txs } from './imports/cosmos/etl/transactions/transactions.js';
 
+Transactions = txs;

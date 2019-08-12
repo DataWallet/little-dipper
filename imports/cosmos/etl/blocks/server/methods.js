@@ -12,15 +12,13 @@ import { Evidences } from '../../evidences/evidences.js';
 import { sha256 } from 'js-sha256';
 import { getAddress } from 'tendermint/lib/pubkey'
 
-// import Block from '../../../ui/components/Block';
-
-// getValidatorVotingPower = (validators, address) => {
-//     for (v in validators){
-//         if (validators[v].address == address){
-//             return parseInt(validators[v].voting_power);
-//         }
-//     }
-// }
+getValidatorVotingPower = (validators, address) => {
+    for (v in validators){
+        if (validators[v].address == address){
+            return parseInt(validators[v].voting_power);
+        }
+    }
+}
 
 getRemovedValidators = (prevValidators, validators) => {
     // let removeValidators = [];
@@ -34,9 +32,6 @@ getRemovedValidators = (prevValidators, validators) => {
 
     return prevValidators;
 }
-
-// var filtered = [1, 2, 3, 4, 5].filter(notContainedIn([1, 2, 3, 5]));
-// console.log(filtered); // [4]
 
 Meteor.methods({
     'blocks.averageBlockTime'(address){
@@ -107,15 +102,10 @@ Meteor.methods({
         // Meteor.clearInterval(Meteor.timerHandle);
         // get the latest height
         let until = Meteor.call('blocks.getLatestHeight');
-        // console.log(until);
         // get the current height in db
         let curr = Meteor.call('blocks.getCurrentHeight');
-        console.log("we are here yet?");
         
-        console.log(curr);
         // loop if there's update in db
-        console.log(until);
-        
         if (until > curr) {
             SYNCING = true;
 
