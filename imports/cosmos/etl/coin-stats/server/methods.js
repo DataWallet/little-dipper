@@ -21,7 +21,7 @@ Meteor.methods({
                 }
             }
             catch(e){
-                console.log(e);
+                console.log("unable to get coin-stats");
             }
         }
         else{

@@ -40,7 +40,7 @@ Meteor.methods({
             };
         }
         catch (e){
-            console.log(e);
+            console.log("could not get all validations");
         }
     }
 });

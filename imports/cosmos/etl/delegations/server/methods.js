@@ -23,7 +23,7 @@ Meteor.methods({
                     }
                 }
                 catch (e){
-                    console.log(e);
+                    console.log("error getting delegations");
                 }    
             }
         }

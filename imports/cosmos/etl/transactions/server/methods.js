@@ -14,7 +14,7 @@ Meteor.methods({
         let response = HTTP.get(url);
         let tx = JSON.parse(response.content);
 
-        console.log(hash);
+        // console.log(hash);
 
         tx.height = parseInt(tx.height);
 

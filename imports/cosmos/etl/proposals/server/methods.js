@@ -46,7 +46,7 @@ Meteor.methods({
             }
         }
         catch (e){
-            console.log(e);
+            console.log("error getting proposals");
         }
     },
     'proposals.getProposalResults': function(){
@@ -84,7 +84,7 @@ Meteor.methods({
                         Proposals.update({proposalId: proposals[i].proposalId}, {$set:proposal});
                     }
                     catch(e){
-
+                        console.log("error getting proposal results")
                     }
                 }
             }
@@ -142,7 +142,7 @@ const getVoteDetail = (votes) => {
                 }
             }
             catch (e){
-                console.log(e);
+                console.log("error getting voters for proposal");
             }
             votingPowerMap[voter] = {votingPower: votingPower};
         }

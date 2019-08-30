@@ -236,7 +236,7 @@ Meteor.methods({
                 bulkMissedStats.execute(Meteor.bindEnvironment((err, result) => {
                     if (err){
                         COUNTMISSEDBLOCKSSTATS = false;
-                        console.log(err);
+                        console.log("error getting bulkMissedStats");
                     }
                     if (result){
                         Status.upsert({chainId: Meteor.settings.public.chainId}, {$set:{lastMissedBlockHeight:latestHeight, lastMissedBlockTime: new Date()}});
