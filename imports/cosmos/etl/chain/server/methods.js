@@ -157,6 +157,8 @@ Meteor.methods({
             let genesis = JSON.parse(response.content);
             genesis = genesis.genesis;
             console.log("genesis file:");
+            console.log(genesis);
+            
             
             let chainParams = {
                 chainId: genesis.chain_id,
@@ -170,17 +172,17 @@ Meteor.methods({
                 },
                 mint: genesis.app_state.mint,
                 distr: {
-                    communityTax: genesis.app_state.distr.community_tax,
-                    baseProposerReward: genesis.app_state.distr.base_proposer_reward,
-                    bonusProposerReward: genesis.app_state.distr.bonus_proposer_reward,
-                    withdrawAddrEnabled: genesis.app_state.distr.withdraw_addr_enabled
+                    communityTax: genesis.app_state.distribution.community_tax,
+                    baseProposerReward: genesis.app_state.distribution.base_proposer_reward,
+                    bonusProposerReward: genesis.app_state.distribution.bonus_proposer_reward,
+                    withdrawAddrEnabled: genesis.app_state.distribution.withdraw_addr_enabled
                 },
-                gov: {
-                    startingProposalId: genesis.app_state.gov.starting_proposal_id,
-                    depositParams: genesis.app_state.gov.deposit_params,
-                    votingParams: genesis.app_state.gov.voting_params,
-                    tallyParams: genesis.app_state.gov.tally_params
-                },
+                // gov: {
+                //     startingProposalId: genesis.app_state.gov.starting_proposal_id,
+                //     depositParams: genesis.app_state.gov.deposit_params,
+                //     votingParams: genesis.app_state.gov.voting_params,
+                //     tallyParams: genesis.app_state.gov.tally_params
+                // },
                 slashing:{
                     params: genesis.app_state.slashing.params
                 }

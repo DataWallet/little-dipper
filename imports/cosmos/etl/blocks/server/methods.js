@@ -122,7 +122,7 @@ Meteor.methods({
             }
 
             url = LCD+'/staking/validators?status=unbonding';
-
+            
             try{
                 response = HTTP.get(url);
                 [...validatorSet] = [...validatorSet, ...JSON.parse(response.content)];
@@ -141,8 +141,6 @@ Meteor.methods({
                 console.log(e);
             }
 
-            console.log("all validators: "+validatorSet.length);
-
             for (let height = curr+1 ; height <= until ; height++) {
                 let startBlockTime = new Date();
                 // add timeout here? and outside this loop (for catched up and keep fetching)?
@@ -150,7 +148,6 @@ Meteor.methods({
                 let url = RPC+'/block?height=' + height;
                 let analyticsData = {};
 
-                console.log(url);
                 try{
                     const bulkValidators = Validators.rawCollection().initializeUnorderedBulkOp();
                     const bulkValidatorRecords = ValidatorRecords.rawCollection().initializeUnorderedBulkOp();
