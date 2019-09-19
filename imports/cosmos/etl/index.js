@@ -61,17 +61,7 @@ let CONFIG = {
 }
 
 Meteor.startup(() => {
-  // This is for unused API library
-  // const conf = {
-  //   RESTurl: cosmosRESTURL,
-  //   RPCurl: cosmosRPCURL,
-  //   chainId: chainId,
-  // }
-  // cosmos = new Cosmos(conf);
-  // cosmos.addModule("rpc", RPCgets(cosmosRPCURL)); // this is used to make the call `Cosmos.rpc` available
-
-
-
+  // Why is this only checked in dev?
   if (Meteor.isDevelopment) {
     process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
     // import DEFAULTSETTINGSJSON from '../../../default_settings.json'
@@ -87,10 +77,18 @@ Meteor.startup(() => {
   }
 
   Meteor.call('chain.genesis', (err, result) => {
+    // Check for genesis file processed...
     if (err) {
       console.log(err);
+    } else {
+      // This is where we need to add modularity?
+      // New Logic:
+
+      // What instances to we need to be polling the chain/node state?
     }
-    // This is where we need to add modularity?
+
+
+
     if (result) {
       if (Meteor.settings.debug.startTimer) {
         timerConsensus = Meteor.setInterval(function () {

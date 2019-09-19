@@ -104,7 +104,8 @@ Meteor.methods({
         let until = Meteor.call('blocks.getLatestHeight');
         // get the current height in db
         let curr = Meteor.call('blocks.getCurrentHeight');
-        
+try {
+    
         // loop if there's update in db
         if (until > curr) {
             SYNCING = true;
@@ -598,6 +599,9 @@ Meteor.methods({
         }
 
         return until;
+} catch (e) {
+    throw new Error(e);
+}
     },
     'addLimit': function(limit) {
         // console.log(limit+10)

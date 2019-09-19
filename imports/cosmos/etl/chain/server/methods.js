@@ -136,8 +136,8 @@ Meteor.methods({
             return chain.latestBlockHeight;
         }
         catch (e){
-            console.log("error getting chain status");
-            return "Error getting chain status.";
+            // console.log("error getting chain status");
+            throw new Error(e);
         }
     },
     'chain.getLatestStatus': function(){
@@ -148,16 +148,15 @@ Meteor.methods({
         
         if (chain && chain.readGenesis){
             console.log('Genesis file has been processed');
-            console.log(chain);
             
         }
         else{
             console.log('=== Start processing genesis file ===');
+            // TODO: Add `try/catch` here?
             let response = HTTP.get(Meteor.settings.genesisFile);
             let genesis = JSON.parse(response.content);
             genesis = genesis.genesis;
             console.log("genesis file:");
-            console.log(genesis);
             
             
             let chainParams = {

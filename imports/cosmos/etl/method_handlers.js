@@ -1,12 +1,18 @@
 import { Meteor } from 'meteor/meteor';
 
+const isDebug = Meteor.settings.debug.showLogs;
+const isDev = Meteor.isDevelopment;
+
 updateChainStatus = () => {
   Meteor.call('chain.updateStatus', (error, result) => {
+    // Gets several statuses of validators, pool etc.
       if (error){
-        //   console.log("updateStatus: "+error);
+        console.log("Error calling chain.updateStatus:");
+        if (isDev && isDebug) { console.log(error); }
       }
       else{
-          console.log("updateStatus: "+result);
+        console.log("Success calling chain.updateStatus:");
+        if (isDev && isDebug) { console.log(result); }
       }
   })
 }
@@ -14,10 +20,12 @@ updateChainStatus = () => {
 updateBlock = () => {
   Meteor.call('blocks.blocksUpdate', (error, result) => {
       if (error){
-        //   console.log("updateBlocks: "+error);
+        console.log("Error calling blocks.blocksUpdate:");
+        if (isDev && isDebug) { console.log(error); }
       }
       else{
-          console.log("updateBlocks: "+result);
+        console.log("Success calling blocks.updateBlocks: ");
+        if (isDev && isDebug) { console.log(result); }
       }
   })
 }
@@ -25,7 +33,11 @@ updateBlock = () => {
 getConsensusState = () => {
   Meteor.call('chain.getConsensusState', (error, result) => {
       if (error){
-        //   console.log("get consensus: "+error)
+        console.log("Error calling chain.getConsensusState:")
+        if (isDev && isDebug) { console.log(error); }
+      } else {
+        console.log("Success calling chain.getConsensusState:");
+        if (isDev && isDebug) { console.log(result); }
       }
   })
 }
@@ -33,10 +45,12 @@ getConsensusState = () => {
 getProposals = () => {
   Meteor.call('proposals.getProposals', (error, result) => {
       if (error){
-        //   console.log("get porposal: "+ error);
+        console.log("Error calling proposals.getPorposals:");
+        if (isDev && isDebug) { console.log(error); }
       }
       if (result){
-          console.log("get proposal: "+result);
+        console.log("Success calling proposals.getProposals:");
+        if (isDev && isDebug) { console.log(result); }
       }
   });
 }
@@ -44,10 +58,12 @@ getProposals = () => {
 getProposalsResults = () => {
   Meteor.call('proposals.getProposalResults', (error, result) => {
       if (error){
-        //   console.log("get proposals result: "+error);
+        console.log("Error calling proposals.getProposalsResults:");
+        if (isDev && isDebug) { console.log(error); }
       }
       if (result){
-          console.log("get proposals result: "+result);
+        console.log("Success calling proposals.getProposalsResults:");
+        if (isDev && isDebug) { console.log(result); }
       }
   });
 }
@@ -55,20 +71,24 @@ getProposalsResults = () => {
 updateMissedBlocks = () => {
   Meteor.call('ValidatorRecords.calculateMissedBlocks', (error, result) =>{
       if (error){
-        //   console.log("missed blocks error: "+ error)
+        console.log("Error calling ValidatorRecords.calculateMissedBlocks:");
+        if (isDev && isDebug) { console.log(error); }
       }
       if (result){
-          console.log("missed blocks ok:" + result);
+          console.log("Success calling ValidatorRecords.calculateMissedBlocks:");
+        if (isDev && isDebug) { console.log(result); }
       }
   });
   
   // NOTE: Testing below.
   Meteor.call('ValidatorRecords.calculateMissedBlocksStats', (error, result) =>{
       if (error){
-        //   console.log("missed blocks stats error: "+ error)
+        console.log("Error calling ValidatorRecords.calculateMissedBlocksStats:");
+        if (isDev && isDebug) { console.log(error); }
       }
       if (result){
-          console.log("missed blocks stats ok:" + result);
+        console.log("Success callsing ValidatorRecords.calculateMissedBlocksStats:");
+        if (isDev && isDebug) { console.log(result); }
       }
   });
   
@@ -77,10 +97,12 @@ updateMissedBlocks = () => {
 getDelegations = () => {
   Meteor.call('delegations.getDelegations', (error, result) => {
       if (error){
-        //   console.log("get delegation error: "+ error)
+        console.log("Error calling: delegations.getDelegations.");
+        if (isDev && isDebug) { console.log(error); }
       }
       else{
-          console.log("get delegtaions ok: "+ result)
+        console.log("Success: delegations.getDelegations");
+        if (isDev && isDebug) { console.log(result); }
       }
   });
 }
@@ -89,19 +111,23 @@ aggregateMinutely = () =>{
   // doing something every min
   Meteor.call('Analytics.aggregateBlockTimeAndVotingPower', "m", (error, result) => {
       if (error){
-        //   console.log("aggregate minutely block time error: "+error)
+        console.log("Error calling: Analytics.aggregateBlockTimeAndVotingPower");
+        if (isDev && isDebug) { console.log(error); }
       }
       else{
-          console.log("aggregate minutely block time ok: "+result)
+        console.log("Success calling: Analytics.aggregateBlockTimeAndVotingPower");
+        if (isDev && isDebug) { console.log(result); }
       }
   });
 
   Meteor.call('coinStats.getCoinStats', (error, result) => {
       if (error){
-        //   console.log("get coin stats: "+error);
+        console.log("Error calling: coinStats.getCoinStats");
+        if (isDev && isDebug) { console.log(error); }
       }
       else{
-          console.log("get coin stats ok: "+result)
+        console.log("Success calling: coinStats.getCoinStats");
+        if (isDev && isDebug) { console.log(result); }
       }
   });
 }
@@ -110,10 +136,12 @@ aggregateHourly = () =>{
   // doing something every hour
   Meteor.call('Analytics.aggregateBlockTimeAndVotingPower', "h", (error, result) => {
       if (error){
-        //   console.log("aggregate hourly block time error: "+error)
+        console.log("Error calling: Analytics.aggregateBlockTimeAndVotingPower");
+        if (isDev && isDebug) { console.log(error); }
       }
       else{
-          console.log("aggregate hourly block time ok: "+result)
+        console.log("Analytics.aggregateBlockTimeAndVotingPower:");
+        if (isDev && isDebug) { console.log(result); }
       }
   });
 }
@@ -122,19 +150,24 @@ aggregateDaily = () =>{
   // doing somthing every day
   Meteor.call('Analytics.aggregateBlockTimeAndVotingPower', "d", (error, result) => {
       if (error){
-        //   console.log("aggregate daily block time error: "+error)
+        console.log("Error calling: Analytics.aggregateBlockTimeAndVotingPower");
+        if (isDev && isDebug) { console.log(error); }
       }
       else{
-          console.log("aggregate daily block time ok: "+result)
+        console.log("Success calling: Analytics.aggregateBlockTimeAndVotingPower");
+        if (isDev && isDebug) { console.log(result); }
       }
   });
 
   Meteor.call('Analytics.aggregateValidatorDailyBlockTime', (error, result) => {
       if (error){
         //   console.log("aggregate validators block time error:"+ error)
+        console.log("Error calling: Analytics.aggregateValidatorDailyBlockTime");
+        if (isDev && isDebug) { console.log(error); }
       }
       else {
-          console.log("aggregate validators block time ok:"+ result);
+        console.log("Success calling: Analytics.aggregateValidatorDailyBlockTime");
+        if (isDev && isDebug) { console.log(result); }
       }
   })
 }
