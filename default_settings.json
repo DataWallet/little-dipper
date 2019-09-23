@@ -19,7 +19,7 @@
     },
     "genesisFile": "{test}",
     "remote":{
-        "rpc":"https://gaia-seeds.interblock.io",
+        "rpc":"https://gaia-seeds.interblock.io:26657",
         "lcd":"https://gaia-seeds.interblock.io:1317"
     },
     "debug": {

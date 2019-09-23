@@ -80,7 +80,7 @@ Meteor.methods({
             return (status.result.sync_info.latest_block_height);
         }
         catch (e){
-            return 0;
+            return e;
         }
     },
     'blocks.getCurrentHeight': function() {

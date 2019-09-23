@@ -1,9 +1,10 @@
 
-// import { Meteor } from 'meteor/meteor';
-// import RPCgets from '../../imports/cosmos/api/core_modules/node/rpc_getters'; // THIS WONT WORK RIGHT NOW....
+import { Meteor } from 'meteor/meteor';
+
 import './startup/server';
 import './startup/both';
 import './method_handlers.js';
+// import RPCgets from '../../imports/cosmos/api/core_modules/node/rpc_getters'; // THIS WONT WORK RIGHT NOW....
 
 // refactor below so that we can export and construct the class as needed with custom configuration
 // import { CosmosDB } '';
@@ -21,19 +22,14 @@ import './method_handlers.js';
 // const cosmosRPCURL = Meteor.settings && Meteor.settings.remote && Meteor.settings.remote.rpc;
 // const chainId = Meteor.settings.public && Meteor.settings.public.chainId;
 
+// TODO: Why are all these global?
 SYNCING = false;
 COUNTMISSEDBLOCKS = false;
 COUNTMISSEDBLOCKSSTATS = false;
 RPC = Meteor.settings.remote.rpc;
 LCD = Meteor.settings.remote.lcd;
-timerBlocks = 0;
-timerChain = 0;
-timerConsensus = 0;
-timerProposal = 0;
-timerProposalsResults = 0;
-timerMissedBlock = 0;
-timerDelegation = 0;
-timerAggregate = 0;
+// Initialize interval ID's obj
+INTS = {};
 
 // const DEFAULTSETTINGS = '/default_settings.json';
 
@@ -91,47 +87,47 @@ Meteor.startup(() => {
 
     if (result) {
       if (Meteor.settings.debug.startTimer) {
-        timerConsensus = Meteor.setInterval(function () {
-          getConsensusState();
-        }, Meteor.settings.params.consensusInterval);
+        // INTS.timerConsensus = Meteor.setInterval(function () {
+        //   getConsensusState();
+        // }, Meteor.settings.params.consensusInterval);
 
-        timerBlocks = Meteor.setInterval(function () {
-          updateBlock();
-        }, Meteor.settings.params.blockInterval);
+        // INTS.timerBlocks = Meteor.setInterval(function () {
+        //   updateBlock();
+        // }, Meteor.settings.params.blockInterval);
 
-        timerChain = Meteor.setInterval(function () {
-          updateChainStatus();
-        }, Meteor.settings.params.statusInterval);
+        // INTS.timerChain = Meteor.setInterval(function () {
+        //   updateChainStatus();
+        // }, Meteor.settings.params.statusInterval);
 
         // This is gov module? annd which is 'mint'?
-        // timerProposal = Meteor.setInterval(function () {
+        // INTS.timerProposal = Meteor.setInterval(function () {
         //   getProposals();
         // }, Meteor.settings.params.proposalInterval);
 
-        // timerProposalsResults = Meteor.setInterval(function () {
+        // INTS.timerProposalsResults = Meteor.setInterval(function () {
         //   getProposalsResults();
         // }, Meteor.settings.params.proposalInterval);
 
-        timerMissedBlock = Meteor.setInterval(function () {
-          updateMissedBlocks();
-        }, Meteor.settings.params.missedBlocksInterval);
+        // INTS.timerMissedBlock = Meteor.setInterval(function () {
+        //   updateMissedBlocks();
+        // }, Meteor.settings.params.missedBlocksInterval);
 
-        // timerDelegation = Meteor.setInterval(function () {
+        // INTS.timerDelegation = Meteor.setInterval(function () {
         //   getDelegations();
         // }, Meteor.settings.params.delegationInterval);
 
-        timerAggregate = Meteor.setInterval(function () {
+        INTS.timerAggregate = Meteor.setInterval(function () {
           let now = new Date();
           if ((now.getUTCSeconds() == 0)) {
-            aggregateMinutely();
+            // aggregateMinutely();
           }
 
           if ((now.getUTCMinutes() == 0) && (now.getUTCSeconds() == 0)) {
-            aggregateHourly();
+            // aggregateHourly();
           }
 
           if ((now.getUTCHours() == 0) && (now.getUTCMinutes() == 0) && (now.getUTCSeconds() == 0)) {
-            aggregateDaily();
+            // aggregateDaily();
           }
         }, 1000)
       }
