@@ -4,6 +4,7 @@ import { Meteor } from 'meteor/meteor';
 import './startup/server';
 import './startup/both';
 import './method_handlers.js';
+import './class.js';
 // import RPCgets from '../../imports/cosmos/api/core_modules/node/rpc_getters'; // THIS WONT WORK RIGHT NOW....
 
 // refactor below so that we can export and construct the class as needed with custom configuration
@@ -77,59 +78,59 @@ Meteor.startup(() => {
     if (err) {
       console.log(err);
     } else {
-      // This is where we need to add modularity?
-      // New Logic:
-
-      // What instances to we need to be polling the chain/node state?
+      // Should be like Cosmos.start.etl() or something
+      // Cosmos.etl.start()
     }
 
 
 
     if (result) {
       if (Meteor.settings.debug.startTimer) {
-        INTS.timerConsensus = Meteor.setInterval(function () {
-          getConsensusState();
-        }, Meteor.settings.params.consensusInterval);
+        // INTS.timerConsensus = Meteor.setInterval(function () {
+        //   getConsensusState();
+        // }, Meteor.settings.params.consensusInterval);
 
-        INTS.timerBlocks = Meteor.setInterval(function () {
-          updateBlock();
-        }, Meteor.settings.params.blockInterval);
+        // INTS.timerBlocks = Meteor.setInterval(function () {
+        //   updateBlock();
+        // }, Meteor.settings.params.blockInterval);
 
-        INTS.timerChain = Meteor.setInterval(function () {
-          updateChainStatus();
-        }, Meteor.settings.params.statusInterval);
+        // INTS.timerMissedBlock = Meteor.setInterval(function () {
+        //   updateMissedBlocks();
+        // }, Meteor.settings.params.missedBlocksInterval);
+
+        // INTS.timerChain = Meteor.setInterval(function () {
+        //   updateChainStatus();
+        // }, Meteor.settings.params.statusInterval);
+
+
 
         // This is gov module? annd which is 'mint'?
-        INTS.timerProposal = Meteor.setInterval(function () {
-          getProposals();
-        }, Meteor.settings.params.proposalInterval);
+        // INTS.timerProposal = Meteor.setInterval(function () {
+        //   getProposals();
+        // }, Meteor.settings.params.proposalInterval);
 
-        INTS.timerProposalsResults = Meteor.setInterval(function () {
-          getProposalsResults();
-        }, Meteor.settings.params.proposalInterval);
+        // INTS.timerProposalsResults = Meteor.setInterval(function () {
+        //   getProposalsResults();
+        // }, Meteor.settings.params.proposalInterval);
 
-        INTS.timerMissedBlock = Meteor.setInterval(function () {
-          updateMissedBlocks();
-        }, Meteor.settings.params.missedBlocksInterval);
+        // INTS.timerDelegation = Meteor.setInterval(function () {
+        //   getDelegations();
+        // }, Meteor.settings.params.delegationInterval);
 
-        INTS.timerDelegation = Meteor.setInterval(function () {
-          getDelegations();
-        }, Meteor.settings.params.delegationInterval);
+        // INTS.timerAggregate = Meteor.setInterval(function () {
+        //   let now = new Date();
+        //   if ((now.getUTCSeconds() == 0)) {
+        //     aggregateMinutely();
+        //   }
 
-        INTS.timerAggregate = Meteor.setInterval(function () {
-          let now = new Date();
-          if ((now.getUTCSeconds() == 0)) {
-            aggregateMinutely();
-          }
+        //   if ((now.getUTCMinutes() == 0) && (now.getUTCSeconds() == 0)) {
+        //     aggregateHourly();
+        //   }
 
-          if ((now.getUTCMinutes() == 0) && (now.getUTCSeconds() == 0)) {
-            aggregateHourly();
-          }
-
-          if ((now.getUTCHours() == 0) && (now.getUTCMinutes() == 0) && (now.getUTCSeconds() == 0)) {
-            aggregateDaily();
-          }
-        }, 1000)
+        //   if ((now.getUTCHours() == 0) && (now.getUTCMinutes() == 0) && (now.getUTCSeconds() == 0)) {
+        //     aggregateDaily();
+        //   }
+        // }, 1000)
       }
     }
   })

@@ -1,12 +1,32 @@
 // blockchainParser.js
+import { Mongo } from 'meteor/mongo';
+import { Meteor } from 'meteor/meteor';
+import { Cosmos } from 'meteor/rd010:little-dipper/imports/cosmos/api/index.js';
 
 DAppDBCollection = new Mongo.Collection('dAppDBCollection');
 
+const settings = Meteor.settings && Meteor.settings.public || null;
+const remotes = settings && settings.remote || null;
+
+
+const apiConf = {
+  RESTurl: remotes && remotes.lcd ,
+  RPCurl: remotes && remotes.rpc,
+  chainId: settings && settings.chainId,
+}
+// cosmos = new Cosmos(apiConf);
+
+// The point of this class is to set up the databases for modules
 class DAppDatabase {
   constructor() {
-    var web3Status = {connected:false};
-    if (typeof web3 === "undefined") { 
-      console.error("No web3.")
+    console.log("we are starting construction");
+    
+    // we want to add the api stuff here...
+    // lets make it so that we call all through Cosmos
+    // like: Cosmos.api.method();
+    var apiStatus = {connected:false};
+    if (typeof Cosmos === "undefined") { 
+      console.error("No Cosmos API.")
     } else if (web3.currentProvider) {
       if (Meteor.isServer) {
         web3Status.connected = true;
@@ -15,6 +35,7 @@ class DAppDatabase {
         web3Status.readyState = web3.currentProvider.connection._readyState;
       }
     }
+    this.api = 
     // console.log("New DAppDB instance...");
     this._initialized = false;
     // this._configs = {};
@@ -551,6 +572,7 @@ DAppDB = new DAppDatabase();
 
 if (Meteor.isServer) {
 
+  // This is a custom listener?
   class BlockchainParser {
     // TODO: add chaincode type for multiple formats/protocols?
     constructor(config) {
@@ -575,6 +597,7 @@ if (Meteor.isServer) {
       // console.log("Starting the interface for contract: " + this.contractName);
       if (this.contractABI && this.contractId && web3) {
         // set status?
+        // TODO: This is where we can setup subscriptions to the ws?
         // this.subscribe();
         this.instance = new web3.eth.Contract(this.contractABI, this.contractId);
         return this.initialized = true;
