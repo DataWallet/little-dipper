@@ -1,4 +1,5 @@
 import Get from "../../api_get";
+const fetch = require("node-fetch");
 
 /* ============ Node ============ */
 export default function Node (url) {

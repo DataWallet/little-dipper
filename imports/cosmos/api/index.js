@@ -23,7 +23,7 @@ DEFAULTS.RESTurl = "http://127.0.0.1:1317";
 DEFAULTS.RPCurl = "http://127.0.0.1:26657/"
 DEFAULTS.chainId = undefined;
 
-export default class Cosmos {
+export default class CosmosAPI {
   constructor (config) {
     this.url = config && config.RESTurl || DEFAULTS.RESTurl
     this.rpc = config && config.RPCurl || DEFAULTS.RPCurl
@@ -115,9 +115,10 @@ export default class Cosmos {
 }
 
 // get the custom modules
-Cosmos.prototype.addModule = function (name, obj) {
+CosmosAPI.prototype.addModule = function (name, obj) {
  // we want to get able to add custom modules
  // this will allow for for `cosmos.<module>.get() etc.
+ // TODO: This will be refactored away from here...
  console.log("adding custom module to cosmos");
  
  this[name] = obj;

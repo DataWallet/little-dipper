@@ -1,14 +1,23 @@
-// blockchainParser.js
+// This will be the main class to export
 import { Mongo } from 'meteor/mongo';
 import { Meteor } from 'meteor/meteor';
-import { Cosmos } from 'meteor/rd010:little-dipper/imports/cosmos/api/index.js';
+import CosmosAPI from 'meteor/rd010:little-dipper/imports/cosmos/api';
 
+import './startup/server';
+import './startup/both';
+import './method_handlers.js';
+import './conns.js';
+
+// This is a meta collection to track information, data, or stats related
+// to function or performance of this package itself. 
+DAppETL = new Mongo.Collection('dAppETL');
 DAppDBCollection = new Mongo.Collection('dAppDBCollection');
 
+// Get all the settings which will be needed
 const settings = Meteor.settings && Meteor.settings.public || null;
 const remotes = settings && settings.remote || null;
 
-
+// Some kind of configurations
 const apiConf = {
   RESTurl: remotes && remotes.lcd ,
   RPCurl: remotes && remotes.rpc,
@@ -17,25 +26,47 @@ const apiConf = {
 // cosmos = new Cosmos(apiConf);
 
 // The point of this class is to set up the databases for modules
+// This needs to be 'class CosmosETL {}'
+console.log(CosmosAPI);
+
+// TODO: We will add additional modules based on configs
+const capi = new CosmosAPI({chainId: "engine"});
+console.log("getting node info....");
+
+let res0;
+capi.get.nodeInfo().then(r => res0 = r);
+console.log(res0);
+
+
+
+// The purpose of this is to track core blockchain data (blocks, txs)
+// and to put all the generi
 class DAppDatabase {
   constructor() {
+    console.log("we are now trying to really build the class....")
     console.log("we are starting construction");
     
     // we want to add the api stuff here...
     // lets make it so that we call all through Cosmos
     // like: Cosmos.api.method();
+    this.connection = {};
+    
     var apiStatus = {connected:false};
-    if (typeof Cosmos === "undefined") { 
+    if (typeof CosmosAPI === "undefined") { 
       console.error("No Cosmos API.")
-    } else if (web3.currentProvider) {
+    } else {
+      // We have the CosmosAPI code, but no connection
+      console.log("we have cosmos api...");
+      
       if (Meteor.isServer) {
-        web3Status.connected = true;
-        web3Status.version = web3.version
-        web3Status.network = web3.currentProvider.connection._url;
-        web3Status.readyState = web3.currentProvider.connection._readyState;
+        this.connection.connected = false;
+        // connection.version = web3.version
+        // connection.network = web3.currentProvider.connection._url;
+        // connection.readyState = web3.currentProvider.connection._readyState;
       }
     }
-    this.api = 
+    // const capi = CosmosAPI;
+    // this.api = new capi();
     // console.log("New DAppDB instance...");
     this._initialized = false;
     // this._configs = {};
@@ -634,33 +665,6 @@ if (Meteor.isServer) {
 
 }
 
-if (Meteor.isClient) {
-  
-  /* TRACK SUBSCRIPTIONS */
-// var subs = Meteor.connection._subscriptions; 
-// var subSummary = {};
 
-//   // organize them by name so that you can see multiple occurrences
-//   Object.keys(subs).forEach(function(key) {
-//     var sub = subs[key];
-//     // you could filter out subs by the 'active' property if you need to
-//     if (subSummary[sub.name] && subSummary[sub.name].length>0) {
-//       subSummary[sub.name].push(sub);
-//     } else {
-//       subSummary[sub.name] = [sub];
-//     }
-//   });
-//   console.log(subSummary);
-  
-}
-
-
-
-Meteor.startup(function () {
-  if (Meteor.isServer) {
-    DAppDB.start();
-  }
-  
-});
 
 
