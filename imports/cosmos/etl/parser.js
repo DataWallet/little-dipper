@@ -34,7 +34,7 @@ const capi = new CosmosAPI({chainId: "engine"});
 console.log("getting node info....");
 
 let res0;
-capi.get.nodeInfo().then(r => res0 = r);
+// capi.get.nodeInfo().then(r => res0 = r);
 console.log(res0);
 
 
@@ -130,6 +130,8 @@ class DAppDatabase {
   }
 
   _configure (params, options) {
+    console.log("we arre trying to configurre the ETL!?!??!?!");
+    
     if (this.getInit() || this.getConfigs()._completed || !params) { return false } // Add error;
     // Parase configs, set some defaults etc.
 
@@ -577,7 +579,7 @@ if (Meteor.isServer) {
   }
 
   DAppDatabase.prototype.start = async function () {
-    // console.log("starting DAppDB");
+    console.log("starting DAppDB");
     if (!this.getInit()) {
       this._initialize();
     }
@@ -595,75 +597,13 @@ if (Meteor.isServer) {
   
 }
 
-var g = Meteor.isServer ? global : window ;
-g.DappDB = {};
-DAppDB = new DAppDatabase();
+// var g = Meteor.isServer ? global : window ;
+// g.DappDB = {};
+// DAppDB = new DAppDatabase();
 
 
 
-if (Meteor.isServer) {
-
-  // This is a custom listener?
-  class BlockchainParser {
-    // TODO: add chaincode type for multiple formats/protocols?
-    constructor(config) {
-      if (!web3) { console.error("no web3") }
-      this.initialized = false;
-      this.instance = false;
-      this.startBlock = config.startBlock || 0;
-      if (!config.contract || !config.contract.abi || !config.contractId) {
-        this.contractId = null;
-        this.contractName = null;
-        this.contractABI = null;
-        console.log("Contract interface dependencies missing");
-      } else {
-        // TODO: Check for valid contract instance, or return error
-        this.contractId = config.contractId;
-        this.contractName = config.contract.contractName;
-        this.contractABI = config.contract.abi
-      }
-    }
-
-    start() {
-      // console.log("Starting the interface for contract: " + this.contractName);
-      if (this.contractABI && this.contractId && web3) {
-        // set status?
-        // TODO: This is where we can setup subscriptions to the ws?
-        // this.subscribe();
-        this.instance = new web3.eth.Contract(this.contractABI, this.contractId);
-        return this.initialized = true;
-      } else {
-        // set status?
-        console.error("Could not start contract interface");
-        return false;
-      }
-
-    }
-
-    subscribe(callback) {
-      var cb = (typeof callback === "function") ? callback : function(){} ;
-      return web3.eth.subscribe('logs',
-        {address: this.contractId},
-        callback
-      );
-    }
-
-    async getPastEvents() {
-      return await this.instance.getPastEvents('allEvents',{fromBlock:0});
-    }
-
-    status() {
-    }
-
-    syncDB() {
-    }
-
-  } // END class BlockchainParser {}
-
-  global.BlockchainParser = BlockchainParser;
-
-
-}
+export {DAppDatabase as CosmosParser};
 
 
 
