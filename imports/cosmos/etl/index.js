@@ -1,18 +1,22 @@
-// this is the new ETL entry point
-import { CosmosParser } from './parser.js';
+// Startup doesnt start anything/methods/processes etc.
+// It just builds the databases, and has also methods available
+import './startup/server';
+import './startup/both';
+import { startSync, checkSettings } from './sync';
 
-// Global etl vars
-SYNCING = false;
-COUNTMISSEDBLOCKS = false;
-COUNTMISSEDBLOCKSSTATS = false;
-RPC = Meteor.settings.remote.rpc;
-LCD = Meteor.settings.remote.lcd;
-
-// export default class CosmosETL {
-//   constructor() {
-//     this.isset = true;
-//   }
-// }
-
-export default CosmosParser;
-
+export default class CosmosETL {
+  constructor() {
+    this.isset = true;
+  }
+  configure (obj) {
+    console.log("configuring the ETL with custom configs");
+    console.log(obj);
+    // here we can get the defaults, and merge with custom configs
+  }
+  start () {
+    console.log("start the etl syncing");
+    if (checkSettings()) {
+      // startSync();
+    }
+  }
+}

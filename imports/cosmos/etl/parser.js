@@ -1,15 +1,17 @@
 // This will be the main class to export
 import { Mongo } from 'meteor/mongo';
 import { Meteor } from 'meteor/meteor';
-import CosmosAPI from 'meteor/rd010:little-dipper/imports/cosmos/api';
+// import CosmosAPI from 'meteor/rd010:little-dipper/imports/cosmos/api';
 
-import './startup/server';
-import './startup/both';
-import './method_handlers.js';
-import './conns.js';
+// import './startup/server';
+// import './startup/both';
+// import './method_handlers.js';
+// import './conns.js';
 
 // This is a meta collection to track information, data, or stats related
 // to function or performance of this package itself. 
+// This package controls putting into database...
+// its dependent on listeners calling these methods...
 DAppETL = new Mongo.Collection('dAppETL');
 DAppDBCollection = new Mongo.Collection('dAppDBCollection');
 
@@ -27,7 +29,6 @@ const apiConf = {
 
 // The point of this class is to set up the databases for modules
 // This needs to be 'class CosmosETL {}'
-console.log(CosmosAPI);
 
 // TODO: We will add additional modules based on configs
 const capi = new CosmosAPI({chainId: "engine"});

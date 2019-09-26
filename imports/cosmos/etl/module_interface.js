@@ -1,5 +1,12 @@
 // This is a custom listener?
-export default class CosmosListener {
+// original convention 'CosmosListener"
+// This was initially the class used to create instances of web3.contract for interafacing
+// with the contract through the DApp parser and API interface
+
+
+// This file we will use for all interactions...
+// We are not sending txs though... so it's less usefull?
+export default class ModuleInterface {
   // TODO: add chaincode type for multiple formats/protocols?
   constructor(config) {
     if (!web3) { console.error("no web3") }
@@ -19,19 +26,21 @@ export default class CosmosListener {
     }
   }
 
-  start() {
+  // This is NOT `start`...
+  // TODO: New convention is 'init'
+  init() {
     // console.log("Starting the interface for contract: " + this.contractName);
-    if (this.contractABI && this.contractId && web3) {
+    // if (this.contractABI && this.contractId && web3) {
       // set status?
       // TODO: This is where we can setup subscriptions to the ws?
       // this.subscribe();
-      this.instance = new web3.eth.Contract(this.contractABI, this.contractId);
-      return this.initialized = true;
-    } else {
+      // this.instance = new web3.eth.Contract(this.contractABI, this.contractId);
+      // return this.initialized = true;
+    // } else {
       // set status?
-      console.error("Could not start contract interface");
-      return false;
-    }
+      // console.error("Could not start contract interface");
+      // return false;
+    // }
 
   }
 

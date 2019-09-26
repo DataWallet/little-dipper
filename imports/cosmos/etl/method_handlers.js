@@ -3,6 +3,9 @@ import { Meteor } from 'meteor/meteor';
 const isDebug = Meteor.settings.debug.showLogs;
 const isDev = Meteor.isDevelopment;
 
+// This is where we want to refactor to eliminate repetition
+
+
 updateChainStatus = () => {
   Meteor.call('chain.updateStatus', (error, result) => {
     // Gets several statuses of validators, pool etc.
@@ -17,6 +20,7 @@ updateChainStatus = () => {
   })
 }
 
+// This is the main event handler
 updateBlock = () => {
   Meteor.call('blocks.blocksUpdate', (error, result) => {
       if (error){
@@ -26,6 +30,12 @@ updateBlock = () => {
       else{
         console.log("Success calling blocks.updateBlocks: ");
         if (isDev && isDebug) { console.log(result); }
+        // IS this where we add the custom stuff...
+        // otherwise we have to embed it in the
+        // NOTe: All block. methods make changes
+        // to only necessary core data models/sets
+        // for core function of the Cosmos DApp
+        // Validator, Voting, Chainstate
       }
   })
 }
