@@ -116,7 +116,16 @@ try {
 
             try{
                 response = HTTP.get(url);
-                validatorSet = JSON.parse(response.content);
+                // validatorSet = JSON.parse(response.content);
+                vals = JSON.parse(response.content);
+                console.log("here is the set:");
+                validatorSet = Array.prototype.slice.call(vals.result);
+                // alert(" your parameters were " + arr.join(", ")); 
+                console.log(typeof validatorSet.forEach);
+                
+
+                
+                
             }
             catch(e){
                 console.log(e);
