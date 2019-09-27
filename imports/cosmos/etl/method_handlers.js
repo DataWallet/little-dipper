@@ -14,7 +14,7 @@ updateChainStatus = () => {
         if (isDev && isDebug) { console.log(error); }
       }
       else{
-        console.log("Success calling chain.updateStatus:");
+        console.log("Called chain.updateStatus:");
         if (isDev && isDebug) { console.log(result); }
       }
   })
@@ -28,7 +28,7 @@ updateBlock = () => {
         if (isDev && isDebug) { console.log(error); }
       }
       else{
-        console.log("Success calling blocks.updateBlocks: ");
+        console.log("Called blocks.updateBlocks: ");
         if (isDev && isDebug) { console.log(result); }
         // IS this where we add the custom stuff...
         // otherwise we have to embed it in the
@@ -46,7 +46,7 @@ getConsensusState = () => {
         console.log("Error calling chain.getConsensusState:")
         if (isDev && isDebug) { console.log(error); }
       } else {
-        console.log("Success calling chain.getConsensusState:");
+        console.log("Called chain.getConsensusState:");
         if (isDev && isDebug) { console.log(result); }
       }
   })
@@ -59,7 +59,7 @@ getProposals = () => {
         if (isDev && isDebug) { console.log(error); }
       }
       if (result){
-        console.log("Success calling proposals.getProposals:");
+        console.log("Called proposals.getProposals:");
         if (isDev && isDebug) { console.log(result); }
       }
   });
@@ -72,7 +72,7 @@ getProposalsResults = () => {
         if (isDev && isDebug) { console.log(error); }
       }
       if (result){
-        console.log("Success calling proposals.getProposalsResults:");
+        console.log("Called proposals.getProposalsResults:");
         if (isDev && isDebug) { console.log(result); }
       }
   });
@@ -85,7 +85,7 @@ updateMissedBlocks = () => {
         if (isDev && isDebug) { console.log(error); }
       }
       if (result){
-          console.log("Success calling ValidatorRecords.calculateMissedBlocks:");
+          console.log("Called ValidatorRecords.calculateMissedBlocks:");
         if (isDev && isDebug) { console.log(result); }
       }
   });
@@ -97,7 +97,7 @@ updateMissedBlocks = () => {
         if (isDev && isDebug) { console.log(error); }
       }
       if (result){
-        console.log("Success callsing ValidatorRecords.calculateMissedBlocksStats:");
+        console.log("Called ValidatorRecords.calculateMissedBlocksStats:");
         if (isDev && isDebug) { console.log(result); }
       }
   });
@@ -111,7 +111,7 @@ getDelegations = () => {
         if (isDev && isDebug) { console.log(error); }
       }
       else{
-        console.log("Success: delegations.getDelegations");
+        console.log("Called delegations.getDelegations");
         if (isDev && isDebug) { console.log(result); }
       }
   });
@@ -125,7 +125,7 @@ aggregateMinutely = () =>{
         if (isDev && isDebug) { console.log(error); }
       }
       else{
-        console.log("Success calling: Analytics.aggregateBlockTimeAndVotingPower");
+        console.log("Called: Analytics.aggregateBlockTimeAndVotingPower");
         if (isDev && isDebug) { console.log(result); }
       }
   });
@@ -136,7 +136,7 @@ aggregateMinutely = () =>{
         if (isDev && isDebug) { console.log(error); }
       }
       else{
-        console.log("Success calling: coinStats.getCoinStats");
+        console.log("Called: coinStats.getCoinStats");
         if (isDev && isDebug) { console.log(result); }
       }
   });
@@ -164,7 +164,7 @@ aggregateDaily = () =>{
         if (isDev && isDebug) { console.log(error); }
       }
       else{
-        console.log("Success calling: Analytics.aggregateBlockTimeAndVotingPower");
+        console.log("Called: Analytics.aggregateBlockTimeAndVotingPower");
         if (isDev && isDebug) { console.log(result); }
       }
   });
@@ -176,7 +176,7 @@ aggregateDaily = () =>{
         if (isDev && isDebug) { console.log(error); }
       }
       else {
-        console.log("Success calling: Analytics.aggregateValidatorDailyBlockTime");
+        console.log("Called: Analytics.aggregateValidatorDailyBlockTime");
         if (isDev && isDebug) { console.log(result); }
       }
   })
