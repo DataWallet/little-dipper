@@ -116,15 +116,8 @@ try {
 
             try{
                 response = HTTP.get(url);
-                // validatorSet = JSON.parse(response.content);
-                vals = JSON.parse(response.content);
-                console.log("here is the set:");
-                validatorSet = Array.prototype.slice.call(vals.result);
-                // alert(" your parameters were " + arr.join(", ")); 
-                console.log(typeof validatorSet.forEach);
-                
-
-                
+                const res = JSON.parse(response.content);
+                validatorSet = res.result;
                 
             }
             catch(e){
@@ -135,7 +128,8 @@ try {
             
             try{
                 response = HTTP.get(url);
-                [...validatorSet] = [...validatorSet, ...JSON.parse(response.content)];
+                const res = JSON.parse(response.content);
+                [...validatorSet] = [...validatorSet, ...res.result];
             }
             catch(e){
                 console.log(e);
@@ -145,7 +139,8 @@ try {
 
             try{
                 response = HTTP.get(url);
-                [...validatorSet] = [...validatorSet, ...JSON.parse(response.content)];
+                const res = JSON.parse(response.content);
+                [...validatorSet] = [...validatorSet, ...res.result];
             }
             catch(e){
                 console.log(e);

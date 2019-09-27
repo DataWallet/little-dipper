@@ -37,21 +37,21 @@ const startSync = function () {
           }, Meteor.settings.params.statusInterval);
 
           // This is gov module? annd which is 'mint'?
-          // INTS.timerProposal = Meteor.setInterval(function () {
-          //   getProposals();
-          // }, Meteor.settings.params.proposalInterval);
+          INTS.timerProposal = Meteor.setInterval(function () {
+            getProposals();
+          }, Meteor.settings.params.proposalInterval);
 
-          // INTS.timerProposalsResults = Meteor.setInterval(function () {
-          //   getProposalsResults();
-          // }, Meteor.settings.params.proposalInterval);
+          INTS.timerProposalsResults = Meteor.setInterval(function () {
+            getProposalsResults();
+          }, Meteor.settings.params.proposalInterval);
 
           INTS.timerMissedBlock = Meteor.setInterval(function () {
             updateMissedBlocks();
           }, Meteor.settings.params.missedBlocksInterval);
 
-          // INTS.timerDelegation = Meteor.setInterval(function () {
-          //   getDelegations();
-          // }, Meteor.settings.params.delegationInterval);
+          INTS.timerDelegation = Meteor.setInterval(function () {
+            getDelegations();
+          }, Meteor.settings.params.delegationInterval);
 
           INTS.timerAggregate = Meteor.setInterval(function () {
             let now = new Date();
