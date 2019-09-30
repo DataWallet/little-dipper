@@ -3,6 +3,7 @@ import { HTTP } from 'meteor/http';
 import { Transactions } from '../../transactions/transactions.js';
 import { Validators } from '../../validators/validators.js';
 import { VotingPowerHistory } from '../../voting-power/history.js';
+import { sha256 } from 'js-sha256';
 
 const AddressLength = 40;
 const bulkTransactions = Transactions.rawCollection().initializeUnorderedBulkOp();

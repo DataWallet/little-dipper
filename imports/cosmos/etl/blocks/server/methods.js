@@ -9,7 +9,6 @@ import { ValidatorRecords, Analytics, VPDistributions} from '../../records/recor
 import { VotingPowerHistory } from '../..//voting-power/history.js';
 import { Transactions } from '../../transactions/transactions.js';
 import { Evidences } from '../../evidences/evidences.js';
-import { sha256 } from 'js-sha256';
 import { getAddress } from 'tendermint/lib/pubkey'
 
 getValidatorVotingPower = (validators, address) => {
