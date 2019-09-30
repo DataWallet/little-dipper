@@ -16,4 +16,11 @@ export default class CosmosETL {
       startSync();
     }
   }
+  addModule() {
+    // this is where we are going to start adding the custom module stuff
+    // 
+    // How do we do this???
+    // we need to add something to post-block transaction parsing...
+    // refactor this out?
+  }
 }

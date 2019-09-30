@@ -189,13 +189,14 @@ try {
 
                         // save txs in database
                         if (block.block.data.txs && block.block.data.txs.length > 0){
-                            for (t in block.block.data.txs){
-                                Meteor.call('Transactions.index', sha256(Buffer.from(block.block.data.txs[t], 'base64')), blockData.time, (err, result) => {
-                                    if (err){
-                                        console.log(err);
-                                    }
-                                });
-                            }
+                            Meteor.call('Transactions.index', block.block.data.txs);
+                            // for (t in block.block.data.txs){
+                            //     Meteor.call('Transactions.index', sha256(Buffer.from(block.block.data.txs[t], 'base64')), blockData.time, (err, result) => {
+                            //         if (err){
+                            //             console.log(err);
+                            //         }
+                            //     });
+                            // }
                         }
 
                         // save double sign evidences
